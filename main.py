@@ -1,19 +1,22 @@
 import color
+from color import hsvtorgb
 
 def generatecomplementary(Color, amount):
     startHSV=Color.getHSV()
     angle=360/(amount+1)
     huelist=[startHSV[0]]
+    rgblist=[]
     for color in range(amount):
-        testangle=startHSV[0]+angle
+        testangle=huelist[color]+angle
         if testangle > 360:
             testangle-=360
         huelist.append(testangle)
-    return huelist
 
-testcolor = color.Color('0xadb45b')
-hue=generatecomplementary(testcolor,1)
-hsvlist=[hue[1],testcolor.getHSV()[1],testcolor.getHSV()[2]]
-print(color.hsvtorgb(hsvlist))
+    for hue in huelist:
+        testlist=[hue,startHSV[1],startHSV[2]]
+        rgblist.append(hsvtorgb(testlist))       
+    return rgblist
 
-    
+testcolor = color.Color('edf636')
+complement=generatecomplementary(testcolor,1)
+print(complement)
