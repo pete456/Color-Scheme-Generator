@@ -5,13 +5,40 @@ class NotRGBHexError(Exception):
 
 class Color:
     def __init__(self,rgb):
-        self.rgb=rgbtolist(rgb)
-        self.rgbfraction=fractionizergb(self)
+        """Takes in a rgb hex value or a hsv list
+        """
+        if type(rgb) == str:
+            self.rgb=rgbtolist(rgb)
+            self.rgbfraction=fractionizergb(self)
+        elif type(rgb) == list:
+            self.rgb=hsvtorgb(rgb)
+            self.rgbfraction=fractionizergb(self)
+            
+    def __add__(self,color):
+        if type(color) == int:
+            test = self.getHSV()
+            test[0]+=color
+            if test[0] > 360:
+                test[0]-=360
+            return Color(test)
+
+    def __sub__(self,color):
+        if type(color) == int:
+            test = self.getHSV()
+            test[0]-=color
+            if test[0] < 0:
+                test[0]+=360
+            return Color(test)
+        
     def getRGB(self):
         """Return a hex string, without any identifiers
         """
         rgbstring=''
         for item in self.rgb:
+            item=int(item)
+            if item < 0:
+                item*=255
+                item=int(item)
             rgbstring+="{0:02X}".format(item)
         return rgbstring
     
