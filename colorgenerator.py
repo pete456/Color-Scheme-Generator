@@ -1,6 +1,5 @@
 import sys
 import color
-from color import hsvtorgb
 
 def generatecomplementary(colorobj, amount=1):
     """Generates a list of complementary colors. Finds the proper angle to add to the colorobj hue based off the amount. Then creates color list based of new hues.
